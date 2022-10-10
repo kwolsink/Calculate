@@ -2,8 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -22,3 +21,6 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore();
 connectFirestoreEmulator(db, 'localhost', 8080);
+
+const functions = getFunctions(app);
+connectFunctionsEmulator(functions, "localhost", 5001);
