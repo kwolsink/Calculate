@@ -2,8 +2,6 @@ import * as functions from "firebase-functions";
 
 import { initializeApp, firestore } from "firebase-admin";
 
-
-
 const admin = initializeApp()
 
 // // Start writing Firebase Functions
