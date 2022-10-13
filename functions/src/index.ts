@@ -21,17 +21,29 @@ export const generateExcercise = functions.https.onCall(async (data, context) =>
 
     const uuid = context.auth.uid
 
-    const excercise = {
-        passed: false,
-        body: {
-            equation: "4 + 5",
-            answer: 9
-        }
+    const sessionInfo = {
+        date: firestore.FieldValue.serverTimestamp(),
+        passed: false
     }
 
-    const docRef = await db.collection('users').doc(uuid).collection('excercises_arithmethic').add(excercise)
-    return await docRef.update({
-        timestamp: firestore.FieldValue.serverTimestamp()
-    })
+    const bulkWriter = firestore().bulkWriter()
+
+    const questions = [
+        {
+            equation: '5 + 6',
+            answer: 11,
+        },
+        {
+            equation: '11 + 7',
+            answer: 18,
+        }
+    ]
+    const sessionRef = await db.collection('users').doc(uuid).collection('sessions').add(sessionInfo)
+    for (let question of questions) {
+        bulkWriter.create(sessionRef.collection('questions').doc(), question)
+    }
+    
+    bulkWriter.flush()
+    return questions
 })
 
